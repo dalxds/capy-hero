@@ -1,11 +1,13 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
+import { WalletKitProvider } from "@mysten/wallet-kit";
+import App from "./app";
 import "./index.css";
-import App from "app/app";
 
-ReactDOM.render(
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById("root")
+    <WalletKitProvider>
+      <App />
+    </WalletKitProvider>
+  </React.StrictMode>
 );

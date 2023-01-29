@@ -5,7 +5,7 @@
     "useDefineForClassFields": true,
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": false,
-    "skipLibCheck": false,
+    "skipLibCheck": true,
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "strict": true,
@@ -17,9 +17,7 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "paths": {
-      "app/*": ["src/app/*"],
-      "components/*": ["src/components/*"],
-      "hooks/*": ["src/hooks/*"]
+      "app/*": ["src/app/*"]
     }
   },
   "include": ["./src"]
