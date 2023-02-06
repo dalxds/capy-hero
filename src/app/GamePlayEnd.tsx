@@ -39,9 +39,10 @@ const GamePlayEnd = ({
 
   useEffect(() => {
     if (open) {
+      // TODO change this to read app url from netlify build envs
       const mintNFTFunctionEndpoint = import.meta.env.DEV
         ? "http://localhost:8888/.netlify/functions/mintNFT"
-        : `${import.meta.env.URL}/.netlify/functions/mintNFT`;
+        : `https://capy-hero.netlify.app/.netlify/functions/mintNFT`;
       fetch(mintNFTFunctionEndpoint, {
         method: "post",
         headers: { "Content-Type": "application/json" },
