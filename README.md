@@ -11,7 +11,7 @@ _Step into the whimsical world of Capys and put your clicking skills to the test
 ## stack
 
 - ⚡️ [React 18](https://beta.reactjs.org/)
-- 🦾 TypeScript
+- 🦾 [TypeScript](https://www.typescriptlang.org/)
 - 🎨 [Tailwind CSS](https://tailwindcss.com/)
 - ☁️ [Netlify + Netlify Functions](https://www.netlify.com/)
 
