@@ -24,6 +24,9 @@ export const handler: Handler = async (event) => {
   // get the provider
   const provider = new JsonRpcProvider(Network.DEVNET);
 
+  console.log(deploymentContext);
+  console.log(deploymentDomainName);
+
   // set function response headers
   const responseHeaders = {
     "access-control-allow-methods": "POST,OPTIONS",
@@ -58,7 +61,7 @@ export const handler: Handler = async (event) => {
   // this can be spoofed easily but it's one more check
   if (
     deploymentContext !== "dev" &&
-    !event.headers.referrer?.includes(deploymentDomainName)
+    !event.headers.referer?.includes(deploymentDomainName)
   ) {
     return responseUnauthorized;
   }
