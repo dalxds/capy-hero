@@ -3,7 +3,7 @@
 import * as React from "react";
 import * as TabsPrimivite from "@radix-ui/react-tabs";
 
-import { cn } from "../utils/merge";
+import { cn } from "../utils/merge-styles";
 
 const Tabs = TabsPrimivite.Root;
 

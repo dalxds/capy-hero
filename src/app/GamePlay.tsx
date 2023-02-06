@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { ObjectId } from "@mysten/sui.js";
 import { Button } from "../components/button";
-import { CapyObject } from "../utils/getAccountCapys";
+import { Separator } from "../components/seperator";
 import { ArrowLeft, RotateCw } from "lucide-react";
 import { useReward } from "react-rewards";
 import { useTimer } from "use-timer";
-import { Separator } from "../components/seperator";
-import GamePlayEOFDialog from "./GamePlayEOFDialog";
+import { v4 as uuidv4 } from "uuid";
+import { CapyObject } from "../utils/useAccountCapys";
+import GamePlayEnd from "./GamePlayEnd";
 
 type GamePlayProps = {
   capys: CapyObject[];
@@ -26,8 +27,10 @@ const GamePlay = ({ capys, capyHero, setCapyHero }: GamePlayProps) => {
   const [clicksCount, setClicksCount] = useState(0);
   // state to handle the game state
   const [gameState, setGameState] = useState<GameState>("INITIALIZED");
-  // state to handle End Of Game (EOF) dialog
-  const [isEOFDialogOpen, setEOFDialogOpen] = useState(false);
+  // state to handle game UUID
+  const [gameUUID, setGameUUID] = useState("");
+  // state to handle Game Over Dialog
+  const [isGameOverDialogOpen, setGameOverDialogOpen] = useState(false);
   // emojis shower library init
   const { reward } = useReward(capyHero, "emoji", {
     angle: 180,
@@ -46,7 +49,7 @@ const GamePlay = ({ capys, capyHero, setCapyHero }: GamePlayProps) => {
     reset: resetTimer,
     status: timerStatus,
   } = useTimer({
-    initialTime: 3,
+    initialTime: import.meta.env.VITE_CAPY_HERO_GAME_SECONDS,
     endTime: 0,
     interval: 1000,
     step: 1,
@@ -67,6 +70,8 @@ const GamePlay = ({ capys, capyHero, setCapyHero }: GamePlayProps) => {
 
   // function that initializes (resets) the game
   const initializeGame = () => {
+    // generate game UUID
+    setGameUUID(uuidv4());
     // reset counter
     setClicksCount(0);
     // reset timer
@@ -75,18 +80,16 @@ const GamePlay = ({ capys, capyHero, setCapyHero }: GamePlayProps) => {
     setGameState("INITIALIZED");
   };
 
-  // functions that handles End Of Game (EOF)
+  // functions that handles End Of Game
   // game reset happens inside the modal
   const endGame = () => {
     setGameState("ENDED");
-    setEOFDialogOpen(true);
+    setGameOverDialogOpen(true);
   };
 
-  // const MESSAGE_START_GAME = 'click on the capy to start the game'
-
   return (
-    <div id="GamePlay" className="p-6">
-      <div id="ControlsContainer" className="flex space-x-2 ">
+    <div id="GameContainer" className="p-6 h-full">
+      <div id="ControlsContainer" className="flex space-x-2">
         {/* back to main menu */}
         <Button variant="outline" onClick={() => setCapyHero(undefined)}>
           <ArrowLeft size={14} className="" />
@@ -129,15 +132,24 @@ const GamePlay = ({ capys, capyHero, setCapyHero }: GamePlayProps) => {
           <RotateCw size={14} className="" />
         </Button>
       </div>
-      <div id="CapyHeroSpace" onClick={() => handleCapyHeroClick()}>
-        <div dangerouslySetInnerHTML={{ __html: capyHeroObject.SVG }} />
+      <div
+        id="CapyHeroSpace"
+        className="h-full flex"
+        onClick={() => handleCapyHeroClick()}
+      >
+        <div
+          className="grow flex align-center justify-center"
+          dangerouslySetInnerHTML={{ __html: capyHeroObject.SVG }}
+        />
         <span id={capyHero} className="absolute left-2/4 top-1/2" />
       </div>
-      <GamePlayEOFDialog
-        open={isEOFDialogOpen}
-        setOpen={setEOFDialogOpen}
+      <GamePlayEnd
+        gameUUID={gameUUID}
+        open={isGameOverDialogOpen}
+        setOpen={setGameOverDialogOpen}
         clicksCount={clicksCount}
         initializeGame={initializeGame}
+        capyHero={capyHero}
         setCapyHero={setCapyHero}
       />
     </div>

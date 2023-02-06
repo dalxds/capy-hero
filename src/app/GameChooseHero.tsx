@@ -1,4 +1,4 @@
-import { CapyObject } from "../utils/getAccountCapys";
+import { CapyObject } from "../utils/useAccountCapys";
 import { ObjectId } from "@mysten/sui.js";
 import { ScrollArea } from "../components/scroll-area";
 import { Button } from "../components/button";

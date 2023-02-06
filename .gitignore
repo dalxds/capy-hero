@@ -1,3 +1,12 @@
 node_modules
 .idea
 dist
+.env
+sui*
+
+# Local Netlify folder
+.netlify
+
+# move build
+/move/build
+/move/build*

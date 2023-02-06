@@ -1,4 +1,7 @@
-import { JsonRpcProvider, Network, SuiAddress, ObjectId } from "@mysten/sui.js";
+import { SuiObjectInfo, ObjectId, SuiAddress } from "@mysten/sui.js";
+import useSWR from "swr";
+import { useEffect, useState } from "react";
+import getAccountObjects from "./getAccountObjects";
 
 interface Capy {
   id: ObjectId;
@@ -26,29 +29,29 @@ export interface CapyObject extends Capy {
 
 const getCapyObject = async (capyId: ObjectId): Promise<CapyObject> => {
   try {
-    // FIXME remove log
-    console.log(`want to learn more for Capy ${capyId}`);
     // get capy object
     const capyObjectApiResponse = await fetch(
       `https://api.capy.art/capys/${capyId}/`
     );
     const capyObject = await capyObjectApiResponse.json();
+
     // get capy svg
     const capySVGApiResponse = await fetch(
       `https://api.capy.art/capys/${capyId}/svg`
     );
     let capySVG = await capySVGApiResponse.text();
+
     // remove sui logo from capy
     const logoStartIndex = capySVG.indexOf("<g xmlns");
     const logoEndIndex = capySVG.indexOf("</g>", logoStartIndex) + 4;
     capySVG = capySVG.slice(0, logoStartIndex) + capySVG.slice(logoEndIndex);
+
     // create capy name
     const capyName = `${capyObject.attributes.emotion} ${
       capyObject.attributes.pattern
     } 0x${capyObject.id.substring(0, 5)}`;
+
     // return capy object
-    // FIXME remove log
-    console.log({ ...capyObject, name: capyName, SVG: capySVG });
     return { ...capyObject, name: capyName, SVG: capySVG };
   } catch (error) {
     throw error;
@@ -56,16 +59,9 @@ const getCapyObject = async (capyId: ObjectId): Promise<CapyObject> => {
 };
 
 const getAccountCapys = async (
-  accountAddress: SuiAddress
+  accountObjects: SuiObjectInfo[]
 ): Promise<CapyObject[]> => {
-  const provider = new JsonRpcProvider(Network.DEVNET);
   try {
-    //FIXME console debug
-    console.log(`fetching the Capys for ${accountAddress}`);
-    // get all account objects
-    const accountObjects = await provider.getObjectsOwnedByAddress(
-      accountAddress
-    );
     // filter out the Capys from all account objects and get their ids
     const accountCapysIds = accountObjects
       .filter((item) => item.type.includes("capy"))
@@ -85,4 +81,26 @@ const getAccountCapys = async (
   }
 };
 
-export default getAccountCapys;
+const useAccountCapys = (accountAddress: SuiAddress | null) => {
+  const { data, error } = useSWR(accountAddress, getAccountObjects);
+  const [capys, setCapys] = useState<CapyObject[] | undefined>(undefined);
+  const [capysError, setCapysError] = useState(false);
+
+  useEffect(() => {
+    if (data !== undefined) {
+      getAccountCapys(data as SuiObjectInfo[])
+        .then((result) => {
+          setCapys(result);
+        })
+        .catch(() => setCapysError(true));
+    }
+  }, [data]);
+
+  return {
+    capys: capys,
+    error: error || capysError,
+    isLoading: !error && !capysError && !capys,
+  };
+};
+
+export default useAccountCapys;

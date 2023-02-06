@@ -1,16 +1,10 @@
 import { useState, Fragment } from "react";
-import { SuiAddress, ObjectId } from "@mysten/sui.js";
+import { ObjectId } from "@mysten/sui.js";
+import { useWalletKit } from "@mysten/wallet-kit";
 import { Loader2, Frown } from "lucide-react";
-import useSWR from "swr";
-import getAccountCapys from "../utils/getAccountCapys";
+import useAccountCapys from "../utils/useAccountCapys";
 import GameChooseHero from "./GameChooseHero";
 import GamePlay from "./GamePlay";
-
-type GameProps = {
-  accountAddress: SuiAddress | null;
-};
-
-// in that component we'll fetch the data
 
 const NoCapysInWallet = () => (
   <div className="h-full flex flex-col items-center justify-center text-center">
@@ -25,26 +19,23 @@ const NoCapysInWallet = () => (
     >
       <b>capy.art</b>
     </a>{" "}
-    and come back to play.
+    and come back to play. <br />
+    We're running in {import.meta.env.VITE_SUI_DEPLOYMENT_NETWORK}, so make sure
+    your wallet's network settings are properly set.
   </div>
 );
 
-const Game = ({ accountAddress }: GameProps) => {
+const Game = () => {
+  const { currentAccount: accountAddress } = useWalletKit();
   //FIXME add parameters to modify swr
   // TODO error handling
-  const {
-    data: capys,
-    error,
-    isLoading,
-  } = useSWR(accountAddress, getAccountCapys, {});
+  const { capys, error, isLoading } = useAccountCapys(accountAddress);
   const [capyHero, setCapyHero] = useState<ObjectId>();
 
   return (
     <Fragment>
-      {/* FIXME Loader is not in the center */}
       {isLoading && (
         <div className="h-full flex items-center justify-center text-center">
-          {/* FIXME load color from tailwind */}
           <Loader2 size={48} color="#6EBCF0" className="animate-spin" />
         </div>
       )}
