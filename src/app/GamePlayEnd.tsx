@@ -37,6 +37,8 @@ const GamePlayEnd = ({
   const [isMinting, setIsMinting] = useState(true);
   const [gameNFTAddress, setGameNFTAddress] = useState(undefined);
 
+  // TODO !! handle netlify function time out error
+
   useEffect(() => {
     if (open) {
       // TODO change this to read app url from netlify build envs
@@ -57,8 +59,9 @@ const GamePlayEnd = ({
           setGameNFTAddress(data.gameNFTAddress);
           setIsMinting(false);
         })
-        // TODO change to error boundary
-        .catch((error) => console.error(error));
+        .catch((error) => {
+          throw Error(error);
+        });
     }
     return () => {
       setIsMinting(true);

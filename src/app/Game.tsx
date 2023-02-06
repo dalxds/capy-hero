@@ -27,10 +27,10 @@ const NoCapysInWallet = () => (
 
 const Game = () => {
   const { currentAccount: accountAddress } = useWalletKit();
-  //FIXME add parameters to modify swr
-  // TODO error handling
   const { capys, error, isLoading } = useAccountCapys(accountAddress);
   const [capyHero, setCapyHero] = useState<ObjectId>();
+
+  if (error) throw Error(error);
 
   return (
     <Fragment>

@@ -20,10 +20,10 @@ const NoPastCapyHeroGames = () => (
 
 const Player = () => {
   const { currentAccount: accountAddress } = useWalletKit();
-  //FIXME add parameters to modify swr
-  // TODO error handling
   const { accountGames, error, isLoading } =
     useAccountCapyHeroGames(accountAddress);
+
+  if (error) throw Error(error);
 
   return (
     <Fragment>
@@ -56,7 +56,13 @@ const Player = () => {
                         variant="subtle"
                         size="lg"
                         className="w-full justify-start p-2"
-                        // onClick={() => setCapyHero(accountGame.id)}
+                        onClick={() =>
+                          window.open(
+                            `https://explorer.sui.io/object/${accountGame}?network=${import.meta.env.VITE_SUI_DEPLOYMENT_NETWORK.toLowerCase()}`,
+                            "_blank",
+                            "noreferrer"
+                          )
+                        }
                       >
                         {accountGame}
                       </Button>

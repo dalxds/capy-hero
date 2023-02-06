@@ -1,9 +1,9 @@
 {
-  "short_name": "Vital",
-  "name": "Starter template for Vite with React (TypeScript). Supports Tailwind with CSS-Modules. Jest and @react/testing-library configured and ready to go. Also ESLint, Prettier, Husky, Commit-lint and Atomic Design for components.",
+  "short_name": "Capy Hero",
+  "name": "A simple clicking game to explore the Sui Blockchain.",
   "icons": [
     {
-      "src": "favicon.svg",
+      "src": "favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     }
