@@ -106,7 +106,7 @@ export const handler: Handler = async (event) => {
   });
 
   const moveCallTxnStatus =
-    moveCallTxn["EffectsCert"]["effects"]["effects"]["status"]["status"];
+    moveCallTxn["effects"]["effects"]["status"]["status"];
 
   if (moveCallTxnStatus === "failure") {
     return {
@@ -115,16 +115,15 @@ export const handler: Handler = async (event) => {
         ...responseHeaders,
       },
       body: JSON.stringify({
-        error:
-          moveCallTxn["EffectsCert"]["effects"]["effects"]["status"]?.["error"],
+        error: moveCallTxn["effects"]["effects"]["status"]?.["error"],
       }),
     };
   }
 
   // get New Object Event from Move Call response
-  const moveCallTxnNewObjectEvent = moveCallTxn["EffectsCert"]["effects"][
-    "effects"
-  ]["events"].find((obj) => obj.hasOwnProperty("newObject"));
+  const moveCallTxnNewObjectEvent = moveCallTxn["effects"]["effects"][
+    "events"
+  ].find((obj) => obj.hasOwnProperty("newObject"));
   const gameNFTAddress = moveCallTxnNewObjectEvent?.newObject?.objectId;
 
   return {

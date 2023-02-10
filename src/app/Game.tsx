@@ -7,21 +7,25 @@ import GameChooseHero from "./GameChooseHero";
 import GamePlay from "./GamePlay";
 
 const NoCapysInWallet = () => (
-  <div className="h-full flex flex-col items-center justify-center text-center">
-    There are no Capys in your wallet <Frown className="inline" />
-    <br />
-    Buy some at{" "}
-    <a
-      href="https://capy.art/"
-      className="text-sui"
-      target="_blank"
-      rel="noreferrer"
-    >
-      <b>capy.art</b>
-    </a>{" "}
-    and come back to play. <br />
-    We're running in {import.meta.env.VITE_SUI_DEPLOYMENT_NETWORK}, so make sure
-    your wallet's network settings are properly set.
+  <div className="h-full flex flex-col text-slate-600 space-y-4 p-12 items-center justify-center text-center">
+    <Frown className="" />
+    <p>There are no Capys in your wallet!</p>
+    <p>
+      Buy some at{" "}
+      <a
+        href="https://capy.art/"
+        className="text-sui"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <b>capy.art</b>
+      </a>{" "}
+      and come back to play.{" "}
+    </p>
+    <p>
+      We're running in {import.meta.env.VITE_SUI_DEPLOYMENT_NETWORK}, so make
+      sure your wallet's network settings are properly set.
+    </p>
   </div>
 );
 

@@ -70,7 +70,7 @@ const GamePlayEnd = ({
   }, [open, capyHero, clicksCount, playerAddress]);
 
   return (
-    // FIXME check again -- did cleanup in useEffect and it works fine
+    // TODO check again -- did cleanup in useEffect and it works fine
     // by passing gameUUID it triggers the component to unmount when the game is reset
     // reference: https://github.com/reactjs/react-modal/issues/106#issuecomment-546658885
     // maybe there is a cleaner way

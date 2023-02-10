@@ -1,5 +1,4 @@
 import { Fragment } from "react";
-import { ObjectId } from "@mysten/sui.js";
 import { useWalletKit } from "@mysten/wallet-kit";
 import { ScrollArea } from "../components/scroll-area";
 import useAccountCapyHeroGames from "../utils/useAccountCapyHeroGames";
@@ -7,14 +6,18 @@ import { Button } from "../components/button";
 import { Loader2, Frown } from "lucide-react";
 
 const NoPastCapyHeroGames = () => (
-  <div className="h-full flex flex-col items-center justify-center text-center">
-    There are no <span className="text-sui">Capy Hero Game NFTs</span> in your
-    wallet <Frown className="inline" />
-    <br />
-    Try playing a game and you'll get some.
-    <br />
-    We're running in {import.meta.env.VITE_SUI_DEPLOYMENT_NETWORK}, so make sure
-    your wallet's Network settings are properly set.
+  <div className="h-full flex flex-col text-slate-600 space-y-4 p-12 items-center justify-center text-center">
+    <Frown className="" />
+    <p>
+      There are no{" "}
+      <span className="text-sui font-semibold">Capy Hero Game NFTs</span> in
+      your wallet!
+    </p>
+    <p>Play the game to get some!</p>
+    <p>
+      We're running in {import.meta.env.VITE_SUI_DEPLOYMENT_NETWORK}, so make
+      sure your wallet's network settings are properly set.
+    </p>
   </div>
 );
 
@@ -45,7 +48,7 @@ const Player = () => {
               <span className="text-sui font-semibold">
                 {accountGames.length}
               </span>{" "}
-              games
+              {accountGames.length === 1 ? "game" : "games"}
             </div>
             <ScrollArea className="grow">
               <ul className="space-y-2 mb-3 mx-6 mt-1">

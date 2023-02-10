@@ -2,11 +2,12 @@ module capy_hero::game {
   use sui::transfer;
   use sui::object::{Self, UID};
   use sui::tx_context::{Self, TxContext};
+  use std::string::{Self, String};
+  use sui::url::{Self, Url};
 
   // TODO v2
   // - make the GameNFT soulbound
   // - make addresses able to be referenced in explorer
-  // - add logo as nft images
 
   struct AdminCap has key { id: UID }
 
@@ -15,14 +16,21 @@ module capy_hero::game {
   struct CapyHeroGame has key, store {
     // game id
     id: UID,
+    // game name
+    name: String,
+    // game description
+    description: String,
+    // game logo url
+    url: Url,
     // player
     player_address: address,
     // hero
-    // pass by reference
     capy_hero: address,
     // score
     score: u64,
   }
+
+  const CAPY_HERO_LOGO_URL:vector<u8> = b"https://user-images.githubusercontent.com/47785842/217014370-3ecbd8d0-c07f-4c72-8b0f-f59941559aaf.png";
   
   // init function
   // give the admin capability to the smart contract publisher
@@ -36,6 +44,9 @@ module capy_hero::game {
   public entry fun new_game(_: &AdminCap, player_address: address, capy_hero: address, score: u64, ctx: &mut TxContext ) {
     let game = CapyHeroGame {
       id: object::new(ctx),
+      name: string::utf8(b"Capy Hero"),
+      description: string::utf8(b"A simple clicking game to explore the Sui Blockchain."),
+      url: url::new_unsafe_from_bytes(CAPY_HERO_LOGO_URL),
       player_address,
       capy_hero,
       score,
