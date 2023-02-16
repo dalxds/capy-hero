@@ -3,6 +3,7 @@ node_modules
 dist
 .env
 sui*
+.eslintcache
 
 # Local Netlify folder
 .netlify
