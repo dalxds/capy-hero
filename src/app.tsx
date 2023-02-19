@@ -39,7 +39,7 @@ const App = (): JSX.Element => {
               <TabsList className="flex-none my-2">
                 <TabsTrigger value="game">Game</TabsTrigger>
                 <TabsTrigger value="player">Player</TabsTrigger>
-                <TabsTrigger value="leaderboards">Leaderboards</TabsTrigger>
+                <TabsTrigger value="leaderboard">Leaderboard</TabsTrigger>
               </TabsList>
               <TabsContent value="game" className="grow min-h-0">
                 <Game />
@@ -47,7 +47,7 @@ const App = (): JSX.Element => {
               <TabsContent value="player" className="grow min-h-0">
                 <Player />
               </TabsContent>
-              <TabsContent value="leaderboards" className="grow min-h-0">
+              <TabsContent value="leaderboard" className="grow min-h-0">
                 <Leaderboard />
               </TabsContent>
               <Footer />
